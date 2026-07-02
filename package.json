@@ -1,0 +1,24 @@
+{
+  "name": "moon-type-generator",
+  "version": "0.1.0",
+  "description": "Translate English into Grade 1 Moon type as copy/paste-able Unicode text.",
+  "main": "src/moon.js",
+  "scripts": {
+    "test": "node --test"
+  },
+  "keywords": [
+    "moon-type",
+    "moon-alphabet",
+    "tactile",
+    "accessibility",
+    "unicode",
+    "translator"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bloo-berries/Moon-Type-Generator.git"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

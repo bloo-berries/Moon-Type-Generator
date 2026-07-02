@@ -1,0 +1,500 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Moon Type Generator — English to Grade 1 Moon, as copyable text</title>
+<meta name="description" content="Translate English into Grade 1 Moon type — the tactile alphabet of raised curves and angles — as real Unicode text you can select, copy, and paste anywhere.">
+<!--
+  Moon glyph shapes follow the per-letter descriptions and Dotty Moon
+  grids published at fakoo.de/en/moon.html. Because Moon script is not
+  yet encoded in Unicode, each letter is rendered with a visually
+  equivalent Unicode character (see src/moon.js for the full table).
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Noto+Sans+Math&family=Noto+Sans+Symbols+2&family=Noto+Sans+Armenian:wght@400&family=Noto+Sans:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper:      #EFE7D5;
+    --paper-deep: #E3D8C1;
+    --paper-hi:   #FBF6EA;
+    --ink:        #29231B;
+    --ink-soft:   #6C614F;
+    --green:      #2E5546;
+    --green-deep: #24443A;
+    --rule:       rgba(41, 35, 27, .16);
+    --moon-stack: "Noto Sans", "Noto Sans Math", "Noto Sans Symbols 2",
+                  "Noto Sans Armenian", "Segoe UI Symbol", "Apple Symbols", sans-serif;
+    --press-shadow: inset 2px 3px 5px rgba(60, 45, 20, .16),
+                    inset -1px -1px 0 rgba(255, 255, 255, .65);
+    --raise-shadow: 0 1px 0 rgba(255, 255, 255, .75) inset,
+                    0 -1px 0 rgba(60, 45, 20, .07) inset,
+                    0 2px 3px rgba(60, 45, 20, .10),
+                    0 10px 24px -14px rgba(60, 45, 20, .35);
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { animation: none !important; transition: none !important; }
+  }
+
+  body {
+    margin: 0;
+    color: var(--ink);
+    background-color: var(--paper);
+    /* A faint 5×5-ish dot field — a nod to Dotty Moon, the embosser-friendly form. */
+    background-image: radial-gradient(rgba(41, 35, 27, .05) 1px, transparent 1.4px);
+    background-size: 22px 22px;
+    font-family: "Atkinson Hyperlegible", system-ui, sans-serif;
+    font-size: 17px;
+    line-height: 1.55;
+  }
+
+  .page {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 56px 20px 72px;
+  }
+
+  /* ---------- Header ---------- */
+
+  .eyebrow {
+    font-size: 12px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 0 0 10px;
+  }
+
+  h1 {
+    font-family: "Bricolage Grotesque", "Atkinson Hyperlegible", sans-serif;
+    font-weight: 700;
+    font-size: clamp(34px, 6vw, 52px);
+    line-height: 1.05;
+    letter-spacing: -.015em;
+    margin: 0 0 6px;
+  }
+
+  .hero-moon {
+    font-family: var(--moon-stack);
+    font-size: clamp(18px, 3.4vw, 26px);
+    letter-spacing: .1em;
+    color: var(--ink-soft);
+    text-shadow: 0 1px 0 rgba(255, 255, 255, .6);
+    margin: 0 0 18px;
+    min-height: 1.4em;
+  }
+
+  .lede { max-width: 58ch; margin: 0 0 40px; }
+  .lede a { color: var(--green-deep); }
+
+  /* ---------- Translator plate ---------- */
+
+  .plate {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    box-shadow: var(--raise-shadow);
+    padding: 22px 22px 20px;
+    margin-bottom: 56px;
+  }
+
+  .tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+
+  .tab {
+    appearance: none;
+    border: 1px solid var(--rule);
+    background: var(--paper-deep);
+    color: var(--ink-soft);
+    font: inherit;
+    font-size: 14px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+  .tab[aria-selected="true"] {
+    background: var(--green);
+    border-color: var(--green-deep);
+    color: var(--paper-hi);
+  }
+
+  label { display: block; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 6px; }
+
+  textarea {
+    width: 100%;
+    min-height: 96px;
+    resize: vertical;
+    font: inherit;
+    color: var(--ink);
+    background: var(--paper-deep);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    box-shadow: var(--press-shadow);
+    padding: 12px 14px;
+  }
+
+  .out-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 18px 0 6px;
+  }
+  .out-head label { margin: 0; }
+  .count { font-size: 13px; color: var(--ink-soft); }
+
+  .output {
+    font-family: var(--moon-stack);
+    font-size: 26px;
+    line-height: 1.7;
+    letter-spacing: .06em;
+    white-space: pre-wrap;
+    word-break: break-word;
+    min-height: 70px;
+    background: var(--paper-hi);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 14px 16px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, .8);
+    user-select: text;
+    cursor: text;
+  }
+  .output.is-latin { font-family: "Atkinson Hyperlegible", sans-serif; font-size: 19px; letter-spacing: .03em; }
+  .output:empty::before { content: attr(data-empty); color: var(--ink-soft); font-family: "Atkinson Hyperlegible", sans-serif; font-size: 15px; letter-spacing: 0; text-shadow: none; }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    appearance: none;
+    font: inherit;
+    font-size: 15px;
+    border-radius: 8px;
+    padding: 9px 18px;
+    cursor: pointer;
+    transition: transform .06s ease, box-shadow .06s ease;
+  }
+  .btn-copy {
+    background: var(--green);
+    color: var(--paper-hi);
+    border: 1px solid var(--green-deep);
+    box-shadow: 0 2px 0 var(--green-deep);
+  }
+  .btn-copy:active { transform: translateY(2px); box-shadow: 0 0 0 var(--green-deep); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink-soft);
+    border: 1px solid var(--rule);
+  }
+
+  .copy-note { font-size: 14px; color: var(--green-deep); min-height: 1.2em; }
+
+  :focus-visible { outline: 3px solid var(--green); outline-offset: 2px; }
+
+  /* ---------- Alphabet specimen ---------- */
+
+  h2 {
+    font-family: "Bricolage Grotesque", sans-serif;
+    font-weight: 700;
+    font-size: 26px;
+    margin: 0 0 4px;
+  }
+  .section-sub { color: var(--ink-soft); margin: 0 0 26px; max-width: 60ch; }
+
+  .family { margin-bottom: 26px; }
+  .family-head {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 5px;
+    margin-bottom: 12px;
+  }
+  .family-name {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--green-deep);
+  }
+  .family-note { font-size: 13.5px; color: var(--ink-soft); }
+
+  .tiles { display: flex; flex-wrap: wrap; gap: 10px; }
+
+  .tile {
+    width: 88px;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    box-shadow: var(--raise-shadow);
+    padding: 10px 10px 8px;
+    text-align: center;
+  }
+  .tile .glyph {
+    display: block;
+    font-family: var(--moon-stack);
+    font-size: 30px;
+    line-height: 1.2;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, .8);
+  }
+  .tile .latin {
+    display: block;
+    margin-top: 4px;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--ink-soft);
+    letter-spacing: .06em;
+  }
+  .tile .cp {
+    display: block;
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 10.5px;
+    color: var(--ink-soft);
+    opacity: .75;
+  }
+
+  /* ---------- Notes & footer ---------- */
+
+  .notes {
+    border-top: 1px solid var(--rule);
+    margin-top: 48px;
+    padding-top: 22px;
+    font-size: 14.5px;
+    color: var(--ink-soft);
+  }
+  .notes p { margin: 0 0 10px; max-width: 68ch; }
+  .notes a { color: var(--green-deep); }
+
+  @media (max-width: 480px) {
+    .page { padding-top: 40px; }
+    .tile { width: calc(25% - 8px); min-width: 72px; }
+    .output { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <p class="eyebrow">William Moon &middot; Brighton &middot; 1845</p>
+    <h1>Moon Type Generator</h1>
+    <p class="hero-moon" id="hero-moon" aria-hidden="true"></p>
+    <p class="lede">
+      Translate English into Grade&nbsp;1 <a href="https://en.wikipedia.org/wiki/Moon_type">Moon type</a>
+      — the tactile alphabet of raised curves and angles — as real Unicode text.
+      Unlike an image or a canvas, everything below can be selected, copied,
+      and pasted anywhere.
+    </p>
+  </header>
+
+  <main>
+    <section class="plate" aria-label="Translator">
+      <div class="tabs" role="tablist" aria-label="Direction">
+        <button class="tab" role="tab" id="tab-encode" aria-selected="true">English &rarr; Moon</button>
+        <button class="tab" role="tab" id="tab-decode" aria-selected="false">Moon &rarr; English</button>
+      </div>
+
+      <label for="input" id="input-label">Enter text</label>
+      <textarea id="input" spellcheck="false" autocomplete="off">The quick brown fox jumps over the lazy dog</textarea>
+
+      <div class="out-head">
+        <label for="output" id="output-label">Moon type</label>
+        <span class="count" id="count"></span>
+      </div>
+      <div class="output" id="output" tabindex="0" role="textbox" aria-readonly="true"
+           aria-live="polite" aria-labelledby="output-label"
+           data-empty="Start typing above — the translation appears here."></div>
+
+      <div class="actions">
+        <button class="btn btn-copy" id="copy">Copy Moon text</button>
+        <button class="btn btn-ghost" id="swap" title="Move the result into the input and switch direction">Use result as input &#8646;</button>
+        <span class="copy-note" id="copy-note" role="status"></span>
+      </div>
+    </section>
+
+    <section aria-labelledby="alphabet-title">
+      <h2 id="alphabet-title">The alphabet, by shape</h2>
+      <p class="section-sub">
+        Moon built his letters from a handful of base shapes turned in four
+        directions, so readers could learn a few forms rather than twenty-six.
+        Eight letters — C, J, L, N, O, U, V, Z — keep their print forms outright.
+        Hover any tile for its shape and code point.
+      </p>
+      <div id="chart"></div>
+    </section>
+  </main>
+
+  <footer class="notes">
+    <p><strong>How the stand-ins work.</strong> Moon script has no Unicode block yet,
+      so each letter uses an existing character whose printed form matches the Moon
+      glyph — &Lambda; for A, &Gamma; for E, &#x2229; for W, and so on. The full table with
+      code points lives in <code>src/moon.js</code>.</p>
+    <p><strong>Rough edges.</strong> H renders as a filled shape (&#x25D0;) where embossed
+      Moon shows a half-filled circle; Q (&#x29A3;) needs a font with mathematical
+      symbols and may show a fallback box in some apps; digits currently pass through
+      untranslated (the library also offers the historical number-sign + A&ndash;J convention).</p>
+    <p><strong>Sources &amp; thanks.</strong> Letter shapes follow the descriptions at
+      <a href="https://fakoo.de/en/moon.html">fakoo.de</a>; background from the
+      <a href="https://en.wikipedia.org/wiki/Moon_type">Moon type</a> article; inspired by
+      Byron Knoll&rsquo;s canvas-based <a href="https://www.byronknoll.com/moon.html">generator</a>.
+      Body text is set in Atkinson Hyperlegible, the Braille Institute&rsquo;s typeface.</p>
+  </footer>
+
+</div>
+
+<script src="src/moon.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var input = document.getElementById('input');
+  var output = document.getElementById('output');
+  var count = document.getElementById('count');
+  var copyBtn = document.getElementById('copy');
+  var copyNote = document.getElementById('copy-note');
+  var swapBtn = document.getElementById('swap');
+  var tabEncode = document.getElementById('tab-encode');
+  var tabDecode = document.getElementById('tab-decode');
+  var inputLabel = document.getElementById('input-label');
+  var outputLabel = document.getElementById('output-label');
+
+  var mode = 'encode'; // 'encode' | 'decode'
+  var noteTimer = null;
+
+  function translate() {
+    var text = input.value;
+    var result = mode === 'encode' ? MoonType.toMoon(text) : MoonType.fromMoon(text);
+    output.textContent = result;
+    output.classList.toggle('is-latin', mode === 'decode');
+    count.textContent = result ? result.length + ' characters' : '';
+  }
+
+  function setMode(next) {
+    mode = next;
+    var encoding = mode === 'encode';
+    tabEncode.setAttribute('aria-selected', String(encoding));
+    tabDecode.setAttribute('aria-selected', String(!encoding));
+    inputLabel.textContent = encoding ? 'Enter text' : 'Enter Moon type';
+    outputLabel.textContent = encoding ? 'Moon type' : 'English';
+    copyBtn.textContent = encoding ? 'Copy Moon text' : 'Copy English text';
+    translate();
+  }
+
+  function flashNote(message) {
+    copyNote.textContent = message;
+    if (noteTimer) clearTimeout(noteTimer);
+    noteTimer = setTimeout(function () { copyNote.textContent = ''; }, 2200);
+  }
+
+  function legacyCopy(text) {
+    var helper = document.createElement('textarea');
+    helper.value = text;
+    helper.setAttribute('readonly', '');
+    helper.style.position = 'fixed';
+    helper.style.opacity = '0';
+    document.body.appendChild(helper);
+    helper.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (err) { ok = false; }
+    document.body.removeChild(helper);
+    return ok;
+  }
+
+  function copyOutput() {
+    var text = output.textContent;
+    if (!text) { flashNote('Nothing to copy yet.'); return; }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(
+        function () { flashNote('Copied.'); },
+        function () { flashNote(legacyCopy(text) ? 'Copied.' : 'Select the text and copy manually.'); }
+      );
+    } else {
+      flashNote(legacyCopy(text) ? 'Copied.' : 'Select the text and copy manually.');
+    }
+  }
+
+  function swap() {
+    var result = output.textContent;
+    if (!result) { flashNote('Nothing to move yet.'); return; }
+    input.value = result;
+    setMode(mode === 'encode' ? 'decode' : 'encode');
+    input.focus();
+  }
+
+  function buildChart() {
+    var chart = document.getElementById('chart');
+    MoonType.FAMILIES.forEach(function (family) {
+      var members = MoonType.MOON_LETTERS.filter(function (e) { return e.family === family.id; });
+      if (!members.length) return;
+
+      var section = document.createElement('div');
+      section.className = 'family';
+
+      var head = document.createElement('div');
+      head.className = 'family-head';
+      var name = document.createElement('span');
+      name.className = 'family-name';
+      name.textContent = family.label;
+      var note = document.createElement('span');
+      note.className = 'family-note';
+      note.textContent = family.note;
+      head.appendChild(name);
+      head.appendChild(note);
+      section.appendChild(head);
+
+      var tiles = document.createElement('div');
+      tiles.className = 'tiles';
+      members.forEach(function (entry) {
+        var tile = document.createElement('div');
+        tile.className = 'tile';
+        tile.title = entry.letter + ' — ' + entry.shape + '. Rendered as ' +
+          entry.name + ' (' + entry.codepoint + ').';
+
+        var glyph = document.createElement('span');
+        glyph.className = 'glyph';
+        glyph.textContent = entry.moon;
+        var latin = document.createElement('span');
+        latin.className = 'latin';
+        latin.textContent = entry.letter;
+        var cp = document.createElement('span');
+        cp.className = 'cp';
+        cp.textContent = entry.codepoint;
+
+        tile.appendChild(glyph);
+        tile.appendChild(latin);
+        tile.appendChild(cp);
+        tiles.appendChild(tile);
+      });
+      section.appendChild(tiles);
+      chart.appendChild(section);
+    });
+  }
+
+  // The page demonstrates itself: the subtitle is the title, in Moon.
+  document.getElementById('hero-moon').textContent = MoonType.toMoon('Moon Type Generator');
+
+  input.addEventListener('input', translate);
+  copyBtn.addEventListener('click', copyOutput);
+  swapBtn.addEventListener('click', swap);
+  tabEncode.addEventListener('click', function () { setMode('encode'); });
+  tabDecode.addEventListener('click', function () { setMode('decode'); });
+
+  buildChart();
+  translate();
+})();
+</script>
+</body>
+</html>
