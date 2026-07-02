@@ -1,12 +1,12 @@
 # Moon Type Generator
 
-Translate English into Grade 1 [Moon type](https://en.wikipedia.org/wiki/Moon_type) — the tactile alphabet of raised curves and angles invented by William Moon in 1845 — as **real Unicode text you can select, copy, and paste anywhere**.
+Translate English into Grade 1 [Moon type](https://en.wikipedia.org/wiki/Moon_type) – the tactile alphabet of raised curves and angles invented by William Moon in 1845 – as **real Unicode text you can select, copy, and paste anywhere**.
 
-Existing tools like Byron Knoll's [online generator](https://www.byronknoll.com/moon.html) draw Moon letters onto a canvas, so the result is an image. This project takes a different route: Moon script has no Unicode block yet (only a tentative allocation in the SMP roadmap), so each Moon letter is mapped to an *existing* Unicode character whose printed form matches the Moon glyph. The output is ordinary text — it survives copy/paste, works in chats and documents, and can even be translated back.
+Existing tools like Byron Knoll's [online generator](https://www.byronknoll.com/moon.html) draw Moon letters onto a canvas, so the result is an image. This project takes a different route: Moon script has no Unicode block yet (only a tentative allocation in the SMP roadmap), so each Moon letter is mapped to an *existing* Unicode character whose printed form matches the Moon glyph. The output is ordinary text – it survives copy/paste, works in chats and documents, and can even be translated back.
 
 ## Try it
 
-Open `index.html` in a browser (no build step, no server needed), or serve the folder with anything — it's GitHub Pages-ready. Type in the box, press **Copy Moon text**.
+Open `index.html` in a browser (no build step, no server needed), or serve the folder with anything – it's GitHub Pages-ready. Type in the box, press **Copy Moon text**.
 
 ```
 HELLO WORLD  →  ◐ΓLLO ∩O∖LƆ
@@ -73,7 +73,7 @@ Tests cover mapping integrity (26 letters, one unique code point each, metadata 
 
 ## Known limitations and roadmap
 
-The mapping is a best-available approximation until Moon is encoded in Unicode. A few characters are imperfect: H renders as a filled geometric shape where embossed Moon shows a half-filled outline, and Q (U+29A3) requires a font with mathematical symbols coverage. Digits pass through by default because the later dedicated Moon numerals have no Unicode stand-ins; the historical lettered convention is available as an option. Grade 2 Moon (contractions and shorthand) and true Moon punctuation are not yet implemented. Possible next steps, roughly in order: Moon punctuation research and mapping, a Grade 2 contraction table, a downloadable `.txt` export, an alternate strict-ASCII output profile, and — for the historically curious — an optional boustrophedon display mode, since early Moon books reversed reading direction on alternate lines.
+The mapping is a best-available approximation until Moon is encoded in Unicode. A few characters are imperfect: H renders as a filled geometric shape where embossed Moon shows a half-filled outline, and Q (U+29A3) requires a font with mathematical symbols coverage. Digits pass through by default because the later dedicated Moon numerals have no Unicode stand-ins; the historical lettered convention is available as an option. Grade 2 Moon (contractions and shorthand) and true Moon punctuation are not yet implemented. Possible next steps, roughly in order: Moon punctuation research and mapping, a Grade 2 contraction table, a downloadable `.txt` export, an alternate strict-ASCII output profile, and – for the historically curious – an optional boustrophedon display mode, since early Moon books reversed reading direction on alternate lines.
 
 ## Credits
 

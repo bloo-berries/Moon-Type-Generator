@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Moon Type Generator — English to Grade 1 Moon, as copyable text</title>
-<meta name="description" content="Translate English into Grade 1 Moon type — the tactile alphabet of raised curves and angles — as real Unicode text you can select, copy, and paste anywhere.">
+<title>Moon Type Generator – English to Grade 1 Moon, as copyable text</title>
+<meta name="description" content="Translate English into Grade 1 Moon type – the tactile alphabet of raised curves and angles – as real Unicode text you can select, copy, and paste anywhere.">
 <!--
   Moon glyph shapes follow the per-letter descriptions and Dotty Moon
   grids published at fakoo.de/en/moon.html. Because Moon script is not
@@ -46,7 +46,7 @@
     margin: 0;
     color: var(--ink);
     background-color: var(--paper);
-    /* A faint 5×5-ish dot field — a nod to Dotty Moon, the embosser-friendly form. */
+    /* A faint 5×5-ish dot field – a nod to Dotty Moon, the embosser-friendly form. */
     background-image: radial-gradient(rgba(41, 35, 27, .05) 1px, transparent 1.4px);
     background-size: 22px 22px;
     font-family: "Atkinson Hyperlegible", system-ui, sans-serif;
@@ -294,7 +294,7 @@
     <p class="hero-moon" id="hero-moon" aria-hidden="true"></p>
     <p class="lede">
       Translate English into Grade&nbsp;1 <a href="https://en.wikipedia.org/wiki/Moon_type">Moon type</a>
-      — the tactile alphabet of raised curves and angles — as real Unicode text.
+      – the tactile alphabet of raised curves and angles – as real Unicode text.
       Unlike an image or a canvas, everything below can be selected, copied,
       and pasted anywhere.
     </p>
@@ -316,7 +316,7 @@
       </div>
       <div class="output" id="output" tabindex="0" role="textbox" aria-readonly="true"
            aria-live="polite" aria-labelledby="output-label"
-           data-empty="Start typing above — the translation appears here."></div>
+           data-empty="Start typing above – the translation appears here."></div>
 
       <div class="actions">
         <button class="btn btn-copy" id="copy">Copy Moon text</button>
@@ -330,7 +330,7 @@
       <p class="section-sub">
         Moon built his letters from a handful of base shapes turned in four
         directions, so readers could learn a few forms rather than twenty-six.
-        Eight letters — C, J, L, N, O, U, V, Z — keep their print forms outright.
+        Eight letters – C, J, L, N, O, U, V, Z – keep their print forms outright.
         Hover any tile for its shape and code point.
       </p>
       <div id="chart"></div>
@@ -340,7 +340,7 @@
   <footer class="notes">
     <p><strong>How the stand-ins work.</strong> Moon script has no Unicode block yet,
       so each letter uses an existing character whose printed form matches the Moon
-      glyph — &Lambda; for A, &Gamma; for E, &#x2229; for W, and so on. The full table with
+      glyph – &Lambda; for A, &Gamma; for E, &#x2229; for W, and so on. The full table with
       code points lives in <code>src/moon.js</code>.</p>
     <p><strong>Rough edges.</strong> H renders as a filled shape (&#x25D0;) where embossed
       Moon shows a half-filled circle; Q (&#x29A3;) needs a font with mathematical
@@ -460,7 +460,7 @@
       members.forEach(function (entry) {
         var tile = document.createElement('div');
         tile.className = 'tile';
-        tile.title = entry.letter + ' — ' + entry.shape + '. Rendered as ' +
+        tile.title = entry.letter + ' – ' + entry.shape + '. Rendered as ' +
           entry.name + ' (' + entry.codepoint + ').';
 
         var glyph = document.createElement('span');

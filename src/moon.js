@@ -1,5 +1,5 @@
 /*!
- * moon.js — Moon Type Generator core library
+ * moon.js – Moon Type Generator core library
  * Translates English text to Grade 1 Moon type as copy/paste-able Unicode.
  *
  * Moon script is not yet encoded in Unicode (it has only a tentative
