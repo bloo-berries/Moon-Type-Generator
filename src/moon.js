@@ -89,11 +89,9 @@
    */
   var DECODE_ALIASES = {
     '\u2227': 'A', // ∧ LOGICAL AND
-    '\u2C6D' : undefined, // reserved
     '|':      'I',
     'I':      'I',
     '\u2223': 'I', // ∣ DIVIDES
-    '\u0186': 'D',
     '\u2183': 'D', // Ↄ ROMAN NUMERAL REVERSED ONE HUNDRED
     '\u017F': 'F', // ſ LONG S
     '\uA780': 'M', // Ꞁ LATIN CAPITAL LETTER TURNED L
@@ -117,6 +115,10 @@
     '6': 'F', '7': 'G', '8': 'H', '9': 'I', '0': 'J'
   };
 
+  /** Reverse of DIGIT_TO_LETTER: letter -> digit string. */
+  var LETTER_TO_DIGIT = {};
+  (function () { for (var d in DIGIT_TO_LETTER) LETTER_TO_DIGIT[DIGIT_TO_LETTER[d]] = d; })();
+
   var DEFAULTS = {
     /** 'passthrough' leaves digits as-is; 'lettered' uses number sign + A–J. */
     numberMode: 'passthrough',
@@ -133,7 +135,7 @@
     return merged;
   }
 
-  var LETTER_RE = /[A-Z]/;
+  var LETTER_RE = /^[A-Z]$/;
   var DIGIT_RE = /[0-9]/;
 
   /**
@@ -149,7 +151,7 @@
     if (text == null) return '';
     var opts = mergeOptions(options);
     var out = [];
-    var chars = String(text).split('');
+    var chars = Array.from(String(text));
     var inNumber = false;
 
     for (var i = 0; i < chars.length; i++) {
@@ -159,6 +161,14 @@
       if (LETTER_RE.test(upper)) {
         inNumber = false;
         out.push(MOON_MAP[upper]);
+        continue;
+      }
+
+      // Strip combining marks so accented letters translate (e.g. e -> E)
+      var base = upper.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      if (LETTER_RE.test(base)) {
+        inNumber = false;
+        out.push(MOON_MAP[base]);
         continue;
       }
 
@@ -186,23 +196,47 @@
 
   /**
    * Translate Moon type back to English capitals.
-   * Accepts the canonical stand-ins plus common aliases. Characters that
-   * are not Moon letters pass through unchanged.
+   * Accepts the canonical stand-ins. When `lenient` is true, common ASCII
+   * and near-identical aliases are also recognised. Understands the number
+   * sign followed by Moon A-J as digits 1-9 and 0.
    *
    * @param {string} text
+   * @param {{lenient?: boolean, numberSign?: string}} [options]
    * @returns {string}
    */
-  function fromMoon(text) {
+  function fromMoon(text, options) {
     if (text == null) return '';
+    var opts = options || {};
+    var lenient = opts.lenient === true;
+    var numberSign = opts.numberSign != null ? opts.numberSign : DEFAULTS.numberSign;
     var out = [];
-    var chars = String(text).split('');
+    var chars = Array.from(String(text));
+    var inNumber = false;
+
     for (var i = 0; i < chars.length; i++) {
       var ch = chars[i];
-      if (REVERSE_MAP[ch]) {
-        out.push(REVERSE_MAP[ch]);
-      } else if (DECODE_ALIASES[ch]) {
-        out.push(DECODE_ALIASES[ch]);
+
+      // Number sign: consume if followed by a Moon digit letter (A-J)
+      if (!inNumber && ch === numberSign && i + 1 < chars.length) {
+        var peek = chars[i + 1];
+        var peekLetter = REVERSE_MAP[peek] || (lenient ? DECODE_ALIASES[peek] : undefined);
+        if (peekLetter && LETTER_TO_DIGIT[peekLetter]) {
+          inNumber = true;
+          continue;
+        }
+      }
+
+      var letter = REVERSE_MAP[ch] || (lenient ? DECODE_ALIASES[ch] : undefined);
+
+      if (letter) {
+        if (inNumber && LETTER_TO_DIGIT[letter]) {
+          out.push(LETTER_TO_DIGIT[letter]);
+        } else {
+          inNumber = false;
+          out.push(letter);
+        }
       } else {
+        inNumber = false;
         out.push(ch);
       }
     }
@@ -220,7 +254,9 @@
     FAMILIES: FAMILIES,
     MOON_MAP: MOON_MAP,
     REVERSE_MAP: REVERSE_MAP,
+    DECODE_ALIASES: DECODE_ALIASES,
     DIGIT_TO_LETTER: DIGIT_TO_LETTER,
+    LETTER_TO_DIGIT: LETTER_TO_DIGIT,
     toMoon: toMoon,
     fromMoon: fromMoon,
     alphabet: alphabet

@@ -79,16 +79,56 @@ test('lettered number mode uses number sign + A–J, once per run of digits', ()
   assert.equal(toMoon('7', { numberMode: 'lettered', numberSign: '№' }), '№\u0295');
 });
 
-test('decoding accepts common ASCII and near-identical aliases', () => {
-  assert.equal(fromMoon('|'), 'I');
-  assert.equal(fromMoon('\\'), 'R');
-  assert.equal(fromMoon('/'), 'S');
-  assert.equal(fromMoon('\u2212'), 'T');
-  assert.equal(fromMoon('\u00AC'), 'M');
+test('aliases are only used in lenient mode', () => {
+  // Lenient: ASCII stand-ins are decoded
+  assert.equal(fromMoon('|', { lenient: true }), 'I');
+  assert.equal(fromMoon('\\', { lenient: true }), 'R');
+  assert.equal(fromMoon('/', { lenient: true }), 'S');
+  assert.equal(fromMoon('\u2212', { lenient: true }), 'T');
+  assert.equal(fromMoon('\u00AC', { lenient: true }), 'M');
+  // Strict (default): aliases pass through unchanged
+  assert.equal(fromMoon('|'), '|');
+  assert.equal(fromMoon('\\'), '\\');
+  assert.equal(fromMoon('/'), '/');
 });
 
 test('null and empty input are safe', () => {
   assert.equal(toMoon(null), '');
   assert.equal(toMoon(''), '');
   assert.equal(fromMoon(undefined), '');
+});
+
+test('round trip preserves common punctuation that aliases would clobber', () => {
+  const samples = ['a/b', 'a\\b', 'Moon \u2013 type', 'x|y'];
+  for (const s of samples) {
+    assert.equal(fromMoon(toMoon(s)), s.toUpperCase());
+  }
+});
+
+test('multi-character uppercase (e.g. \u00DF) does not silently vanish', () => {
+  // \u00DF uppercases to "SS" which would match the old unanchored /[A-Z]/ regex
+  // but MOON_MAP["SS"] is undefined, so the character would silently disappear.
+  const result = toMoon('stra\u00DFe');
+  assert.ok(result.length > 0, 'result is not empty');
+  assert.ok(result.includes('\u00DF'), '\u00DF passes through as unknown');
+});
+
+test('accented letters are transliterated to their base form', () => {
+  assert.equal(toMoon('\u00E9'), MOON_MAP['E']);     // e
+  assert.equal(toMoon('\u00F1'), MOON_MAP['N']);     // n
+  assert.equal(toMoon('\u00FC'), MOON_MAP['U']);     // u
+});
+
+test('number round trip with lettered mode', () => {
+  const opts = { numberMode: 'lettered' };
+  assert.equal(fromMoon(toMoon('42', opts)), '42');
+  assert.equal(fromMoon(toMoon('1845', opts)), '1845');
+  assert.equal(fromMoon(toMoon('1 2', opts)), '1 2');
+  // Number sign not followed by a digit letter passes through
+  assert.equal(fromMoon('# hello'), '# hello');
+});
+
+test('emoji characters are not split into surrogates', () => {
+  const result = toMoon('a\uD83D\uDE00b');
+  assert.equal(result, MOON_MAP['A'] + '\uD83D\uDE00' + MOON_MAP['B']);
 });

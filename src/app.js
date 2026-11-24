@@ -26,8 +26,8 @@
   function setMode(next) {
     mode = next;
     var encoding = mode === 'encode';
-    tabEncode.setAttribute('aria-selected', String(encoding));
-    tabDecode.setAttribute('aria-selected', String(!encoding));
+    tabEncode.setAttribute('aria-pressed', String(encoding));
+    tabDecode.setAttribute('aria-pressed', String(!encoding));
     inputLabel.textContent = encoding ? 'Enter text' : 'Enter Moon type';
     outputLabel.textContent = encoding ? 'Moon type' : 'English';
     copyBtn.textContent = encoding ? 'Copy Moon text' : 'Copy English text';
@@ -99,10 +99,20 @@
       var tiles = document.createElement('div');
       tiles.className = 'tiles';
       members.forEach(function (entry) {
-        var tile = document.createElement('div');
+        var tile = document.createElement('button');
         tile.className = 'tile';
-        tile.title = entry.letter + ' – ' + entry.shape + '. Rendered as ' +
+        tile.type = 'button';
+        tile.setAttribute('aria-label', entry.letter + ' \u2013 ' + entry.shape);
+        tile.title = entry.letter + ' \u2013 ' + entry.shape + '. Rendered as ' +
           entry.name + ' (' + entry.codepoint + ').';
+        tile.addEventListener('click', function () {
+          var pos = input.selectionStart != null ? input.selectionStart : input.value.length;
+          input.value = input.value.slice(0, pos) + entry.moon + input.value.slice(pos);
+          input.selectionStart = input.selectionEnd = pos + entry.moon.length;
+          if (mode !== 'decode') setMode('decode');
+          else translate();
+          input.focus();
+        });
 
         var glyph = document.createElement('span');
         glyph.className = 'glyph';

@@ -33,9 +33,9 @@
 
   <main>
     <section class="plate" aria-label="Translator">
-      <div class="tabs" role="tablist" aria-label="Direction">
-        <button class="tab" role="tab" id="tab-encode" aria-selected="true">English &rarr; Moon</button>
-        <button class="tab" role="tab" id="tab-decode" aria-selected="false">Moon &rarr; English</button>
+      <div class="tabs" aria-label="Direction">
+        <button class="tab" id="tab-encode" aria-pressed="true">English &rarr; Moon</button>
+        <button class="tab" id="tab-decode" aria-pressed="false">Moon &rarr; English</button>
       </div>
 
       <label for="input" id="input-label">Enter text</label>
@@ -46,7 +46,7 @@
         <span class="count" id="count"></span>
       </div>
       <div class="output" id="output" tabindex="0" role="textbox" aria-readonly="true"
-           aria-live="polite" aria-labelledby="output-label"
+           aria-labelledby="output-label"
            data-empty="Start typing above – the translation appears here."></div>
 
       <div class="actions">
@@ -62,7 +62,7 @@
         Moon built his letters from a handful of base shapes turned in four
         directions, so readers could learn a few forms rather than twenty-six.
         Eight letters – C, J, L, N, O, U, V, Z – keep their print forms outright.
-        Hover any tile for its shape and code point.
+        Click any tile to insert it, or hover for its shape and code point.
       </p>
       <div id="chart"></div>
     </section>
